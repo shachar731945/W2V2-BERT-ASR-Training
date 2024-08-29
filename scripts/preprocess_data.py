@@ -41,6 +41,8 @@ def clean_up_data(batch, config):
             sentence = sentence.lower()
         if config.preprocessing.text.remove_latin_characters:
             sentence = re.sub(r'[a-z]+', '', sentence)
+        if config.preprocessing.text.only_hebrew_letters:
+            sentence = re.compile(r'[^א-ת ]').sub('', batch["sentence"])
 
         # Update the batch with the cleaned sentence
         batch["sentence"] = sentence
