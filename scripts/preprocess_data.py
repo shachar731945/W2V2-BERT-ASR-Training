@@ -44,6 +44,9 @@ def clean_up_data(batch, config):
         if config.preprocessing.text.only_hebrew_letters:
             sentence = re.compile(r'[^א-ת ]').sub('', batch["sentence"])
 
+        # Remove extra spaces and strip again
+        sentence = ' '.join(sentence.split()).strip()
+
         # Update the batch with the cleaned sentence
         batch["sentence"] = sentence
 
@@ -56,7 +59,9 @@ def normalize_dataset(dataset, config):
 
     cleanup_fn = partial(clean_up_data, config=config)
     # Apply the preprocessing function to the dataset
-    return dataset.map(cleanup_fn, num_proc=config.num_workers)  # Ensure batched=True if the function expects batched inputs
+    normalized_dataset = dataset.map(cleanup_fn, num_proc=config.num_workers)  # Ensure batched=True if the function expects batched inputs
+    # filter out empty sentence data
+    return normalized_dataset.filter(lambda x: x["sentence"] != '', num_proc=config.num_workers)
 
 
 def create_vocabulary(batch):

@@ -1,18 +1,18 @@
 train_datasets:
-  - dataset: "ivrit-ai/audio-labeled"
+  - dataset: "ivrit-ai/crowd-transcribe-v1"
     name: "default"
     split: "train"
     input_fields:
       - "audio"
-      - "text"
+      - "sentence"
 
 eval_datasets:
-  - dataset: "ivrit-ai/audio-labeled"
+  - dataset: "ivrit-ai/crowd-transcribe-v1"
     name: "default"
     split: "test"
     input_fields:
       - "audio"
-      - "text"
+      - "sentence"
 
 preprocessing:
   text:
@@ -28,14 +28,14 @@ eval_batch_size: 12
 num_workers: 32
 debug: False
 result_path: "results"
-exp_name: "hebrew"
+exp_name: "hebrew-crowd-transcribe-v1"
 sampling_rate: 16000
-warmup_steps: 3000
+warmup_steps: 4000
 learning_rate: 5e-5
-save_steps: 4000
-eval_steps: 4000
-logging_steps: 500
-save_total_limit: 2
+save_steps: 10000
+eval_steps: 10000
+logging_steps: 1500
+save_total_limit: 3
 push_to_hub: False
 gradient_checkpointing: True
 train_epochs: 10

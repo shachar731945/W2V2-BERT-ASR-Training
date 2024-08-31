@@ -176,7 +176,6 @@ training_args = TrainingArguments(
     load_best_model_at_end=True,
     metric_for_best_model="eval_wer",
     gradient_checkpointing_kwargs={'use_reentrant': False}
-
 )
 
 trainer = Trainer(
@@ -191,10 +190,3 @@ trainer = Trainer(
 
 
 trainer.train(resume_from_checkpoint=config.resume_from_checkpoint)
-
-
-
-
-
-
-
